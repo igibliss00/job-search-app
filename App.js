@@ -1,3 +1,4 @@
+import React from 'react'
 import { createAppContainer  } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -8,6 +9,8 @@ import DeckScreen from './screens/DeckScreen'
 import MapScreen from './screens/MapScreen'
 import ReviewScreen from './screens/ReviewScreen'
 import SettingsScreen from './screens/SettingsScreen'
+import { Provider as AuthProvider } from './src/context/AuthContext'
+import { setNavigator } from './src/navigationRef'
 
 const MainNavigator = createBottomTabNavigator({
   Welcome: { 
@@ -36,6 +39,14 @@ const MainNavigator = createBottomTabNavigator({
   } 
 })
 
-export default createAppContainer(MainNavigator) 
+const App = createAppContainer(MainNavigator) 
+
+export default () => {
+  return (
+    <AuthProvider>
+      <App ref={navigator => setNavigator(navigator)}/>
+    </AuthProvider>
+  )
+}
 
 

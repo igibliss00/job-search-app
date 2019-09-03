@@ -18,7 +18,6 @@ ReviewScreen.navigationOptions = ({ navigation }) => ({
         <Button 
             title="Settings" 
             onPress={() => navigation.navigate('Settings')}
-            // buttonStyle={{ backgroundColor: "rgba(0,0,0,0)" }}
             titleStyle={{
                 color: "rgba(0, 122, 255, 1)"
             }}
