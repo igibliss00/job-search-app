@@ -1,19 +1,41 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer  } from 'react-navigation'
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createStackNavigator } from 'react-navigation-stack';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
-}
+import WelcomeScreen from './screens/WelcomeScreen'
+import AuthScreen from './screens/AuthScreen'
+import DeckScreen from './screens/DeckScreen'
+import MapScreen from './screens/MapScreen'
+import ReviewScreen from './screens/ReviewScreen'
+import SettingsScreen from './screens/SettingsScreen'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+const MainNavigator = createBottomTabNavigator({
+  Welcome: { 
+    screen: WelcomeScreen
   },
-});
+  Auth: {
+    screen: AuthScreen 
+  },
+  Main: {
+    screen: createBottomTabNavigator({
+      Map: {
+        screen: MapScreen
+      },
+      Deck: {
+        screen: DeckScreen
+      },
+      Review: {
+        screen: createStackNavigator({
+          Review: {
+            screen: ReviewScreen,
+          },
+          Settings: SettingsScreen
+        })
+      }
+    })
+  } 
+})
+
+export default createAppContainer(MainNavigator) 
+
+
