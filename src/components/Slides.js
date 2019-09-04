@@ -10,7 +10,7 @@ import { Button } from 'react-native-elements'
 
 const SCREEN_WIDTH = Dimensions.get('window').width
 
-const Slides = ({ data }) => {
+const Slides = ({ data, onComplete }) => {
 
     const renderLastSlide = index => {
         if (index === data.length - 1) {
@@ -20,6 +20,7 @@ const Slides = ({ data }) => {
                     raised
                     buttonStyle={styles.buttonStyle}
                     containerStyle={{ marginTop: 15 }}
+                    onPress={onComplete}
                 />
             )
         }

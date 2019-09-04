@@ -3,13 +3,14 @@ import { createAppContainer  } from 'react-navigation'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import WelcomeScreen from './screens/WelcomeScreen'
-import AuthScreen from './screens/AuthScreen'
-import DeckScreen from './screens/DeckScreen'
-import MapScreen from './screens/MapScreen'
-import ReviewScreen from './screens/ReviewScreen'
-import SettingsScreen from './screens/SettingsScreen'
+import WelcomeScreen from './src/screens/WelcomeScreen'
+import AuthScreen from './src/screens/AuthScreen'
+import DeckScreen from './src/screens/DeckScreen'
+import MapScreen from './src/screens/MapScreen'
+import ReviewScreen from './src/screens/ReviewScreen'
+import SettingsScreen from './src/screens/SettingsScreen'
 import { Provider as AuthProvider } from './src/context/AuthContext'
+import { Provider as JobProvider } from './src/context/JobContext'
 import { setNavigator } from './src/navigationRef'
 
 const MainNavigator = createBottomTabNavigator({
@@ -43,9 +44,11 @@ const App = createAppContainer(MainNavigator)
 
 export default () => {
   return (
-    <AuthProvider>
-      <App ref={navigator => setNavigator(navigator)}/>
-    </AuthProvider>
+    <JobProvider>
+      <AuthProvider>
+        <App ref={navigator => setNavigator(navigator)}/>
+      </AuthProvider>
+    </JobProvider>
   )
 }
 
