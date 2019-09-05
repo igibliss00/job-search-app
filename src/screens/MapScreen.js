@@ -1,17 +1,19 @@
 import React, { useState, useContext } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import MapView from 'react-native-maps'
-import { Button } from 'react-native-elements'
+import { Button, Input } from 'react-native-elements'
 
 import { Context as JobContext } from '../context/JobContext'
 
-const MapScreen = () => {
+const MapScreen = ({ navigation }) => {
     const [region, setRegion] = useState({
         longitude: -122,
         latitude: 37,
         longitudeDelta: 0.04,
         latitudeDelta: 0.09
     })
+
+    const [searchTerm, setSearchTerm] = useState('')
 
     const {        
         fetchJobs 
@@ -22,8 +24,9 @@ const MapScreen = () => {
     }
 
     const onButtonPress = () => {
-        console.log(region)
-        fetchJobs(region)
+        fetchJobs(region, searchTerm, () => {
+            navigation.navigate('Deck')
+        })
     }
 
     return (
@@ -34,6 +37,12 @@ const MapScreen = () => {
                 onRegionChangeComplete={onRegionChangeComplete}
             />
             <View style={styles.buttonContainer}>
+                <Input 
+                    placeholder='Search Term'
+                    containerStyle={styles.input}
+                    onChangeText={setSearchTerm}
+                    value={searchTerm}
+                />
                 <Button 
                     title="Search This Area"
                     large
@@ -53,6 +62,11 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         margin: 10, 
+    },
+    input: {
+        backgroundColor: 'white',
+        marginBottom: 10,
+        borderRadius: 3,
     }
 })
 
