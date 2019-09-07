@@ -8,10 +8,10 @@ import Swipe from '../components/Swipe'
 
 const DeckScreen = () => {
     const { 
-        state,
+        state: { jobs },
         likeJob 
     } = useContext(JobContext)
-    console.log("state", state)
+    // console.log("state:", jobs)
     const renderCard = ({ 
         coordinates, 
         name,
@@ -51,7 +51,7 @@ const DeckScreen = () => {
     return (
         <View style={styles.container}>
             <Swipe
-                data={state}
+                data={jobs}
                 renderCard={renderCard}
                 renderNoMoreCards={renderNoMoreCards}
                 onSwipeRight={job => likeJob(job)}

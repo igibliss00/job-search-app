@@ -1,16 +1,46 @@
-import React from 'react'
-import { View, Text, StyleSheet, Platform } from 'react-native'
-import { Button } from 'react-native-elements'
+import React, { useContext } from 'react'
+import { View, Text, StyleSheet, Platform, ScrollView } from 'react-native'
+import { Button, Card } from 'react-native-elements'
+
+import { Context as JobContext } from '../context/JobContext'
 
 const ReviewScreen = () => {
+    const {
+        state: { likedJobs }
+    } = useContext(JobContext)
+    console.log("likedJobs", likedJobs) 
+
+    const renderLikedJobs = () => {
+        return likedJobs.map(({ id, name, phone, price, rating, review_count }) => {
+            return (
+                <Card key={id}>
+                    <View style={{ height: 200 }} >
+                        <View style={styles.detailWrapper}>
+                            <Text style={styles.italics}>{name}</Text>
+                            <Text style={styles.italics}>{phone}</Text>
+                            <Text style={styles.italics}>{price}</Text>
+                            <Text style={styles.italics}>{rating}</Text>
+                            <Text style={styles.italics}>{review_count}</Text>
+                        </View>
+                    </View>
+                </Card>
+            )
+        }) 
+    }
     return (
-        <View style={styles.container}>
-            <Text>ReviewScreen</Text>
-        </View>
+        <ScrollView style={styles.container}>
+            {renderLikedJobs()}
+        </ScrollView>
     )
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    detailWrapper: {
+        marginBottom: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-around'
+    }
+})
 
 ReviewScreen.navigationOptions = ({ navigation }) => ({
     title: "Review Jobs",
@@ -25,7 +55,15 @@ ReviewScreen.navigationOptions = ({ navigation }) => ({
         />
     ),
     style: {
-        marginTop: Platform.OX === 'android' ? 24 : 0
+        marginTop: Platform.OX === 'android' ? 24 : 0,
+        detailWrapper: {
+            marginBottom: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-around'
+        },
+        italics: {
+            fontStyle: 'italic', 
+        },
     }
 })  
 

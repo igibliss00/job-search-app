@@ -63,4 +63,10 @@ const styles = StyleSheet.create({
     }
 })
 
+WelcomeScreen.navigationOptions = ({ navigation }) => ({
+    tabBarVisible: false,
+    
+})
+    
+
 export default WelcomeScreen

@@ -5,24 +5,26 @@ import qs from 'qs'
 import _ from 'lodash'
 
 import createDataContext from './createDataContext'
-import { FETCH_JOBS } from '../constants'
+import { FETCH_JOBS, LIKE_JOB } from '../constants'
 import { GOOGLE_API } from '../apis/api';
 import yelp from '../apis/yelp'
 
 const INITIAL_STATE = {
-    results: []
+    results: [],
+    jobs: [],
+    likedJobs: [],
 }
 
 const jobReducer = (state = INITIAL_STATE, { type, payload }) => {
     switch (type) {
         case FETCH_JOBS:
             return {
-                state: payload
+                jobs: payload
             }
         case LIKE_JOB: 
             return _.uniqBy([
-                action.payload, ...state
-            ], 'id')
+                { likedJobs: payload }
+              ], 'id');
         default:
             break;
     }
@@ -60,7 +62,6 @@ const fetchJobs = dispatch => async (region, searchTerm, callback) => {
     
     try {
         const address = await Location.reverseGeocodeAsync({ latitude, longitude })
-        console.log("address", address)
         const { name, street, city, region, country } = address[0]
         const response = await yelp.get('/search', {
             params: {
@@ -77,12 +78,12 @@ const fetchJobs = dispatch => async (region, searchTerm, callback) => {
     }
 }
 
-const likeJob = dispatch => () => {
-
+const likeJob = dispatch => (job) => {
+    dispatch({ type: LIKE_JOB , payload: job })
 }
 
 export const { Provider, Context } = createDataContext(
     jobReducer,
     { fetchJobs, likeJob },
-    {}
+    { jobs: [], likedJobs: [] }
 )

@@ -81,10 +81,11 @@ const Swipe = ({
     }
 
     const renderCards = (data, renderCard) => {
+        
         if (index >= data.length) {
             return renderNoMoreCards()
         }
-        return data && data.state.map((item, i) => {
+        return data && data.map((item, i) => {
             if (i < index) return null
             if (i === index) {
                 return (
